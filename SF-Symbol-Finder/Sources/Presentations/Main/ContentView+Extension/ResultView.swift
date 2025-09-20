@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-extension ContentView {
+extension DrawingFinderView {
     var resultView: some View {
         NavigationView {
             ZStack {

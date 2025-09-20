@@ -3,10 +3,12 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 90;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5705ECC52E7AF50900663DBD /* DrawingFinderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5705ECC42E7AF50900663DBD /* DrawingFinderView.swift */; };
+		5705ECC72E7AF51500663DBD /* InformView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5705ECC62E7AF51500663DBD /* InformView.swift */; };
 		AD19B5E02BBD9F5100847DF7 /* SFSymbolClassifier.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = AD19B5DF2BBD9F5100847DF7 /* SFSymbolClassifier.mlmodel */; };
 		AD548E0D2B960C6200FBB2CC /* DeviceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD548E0C2B960C6200FBB2CC /* DeviceModel.swift */; };
 		AD548E112B96118D00FBB2CC /* Orientation.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD548E102B96118D00FBB2CC /* Orientation.swift */; };
@@ -27,6 +29,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5705ECC42E7AF50900663DBD /* DrawingFinderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingFinderView.swift; sourceTree = "<group>"; };
+		5705ECC62E7AF51500663DBD /* InformView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformView.swift; sourceTree = "<group>"; };
 		AD19B5DF2BBD9F5100847DF7 /* SFSymbolClassifier.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = SFSymbolClassifier.mlmodel; sourceTree = "<group>"; };
 		AD548E0C2B960C6200FBB2CC /* DeviceModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceModel.swift; sourceTree = "<group>"; };
 		AD548E102B96118D00FBB2CC /* Orientation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Orientation.swift; sourceTree = "<group>"; };
@@ -52,10 +56,8 @@
 /* Begin PBXFrameworksBuildPhase section */
 		ADD4C00A2B95B96C00B6E862 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
@@ -130,6 +132,8 @@
 			children = (
 				ADD4C0102B95B96C00B6E862 /* SF_Symbol_FinderApp.swift */,
 				ADD4C0122B95B96C00B6E862 /* ContentView.swift */,
+				5705ECC42E7AF50900663DBD /* DrawingFinderView.swift */,
+				5705ECC62E7AF51500663DBD /* InformView.swift */,
 				ADD4C0382B95C73900B6E862 /* ContentView+Extension */,
 				ADD4C0362B95C4DB00B6E862 /* SFSymbolListView.swift */,
 			);
@@ -194,8 +198,6 @@
 			);
 			buildRules = (
 			);
-			dependencies = (
-			);
 			name = "SF-Symbol-Finder";
 			productName = "SF-Symbol-Finder";
 			productReference = ADD4C00D2B95B96C00B6E862 /* SF Symbols Finder.app */;
@@ -217,7 +219,6 @@
 				};
 			};
 			buildConfigurationList = ADD4C0082B95B96C00B6E862 /* Build configuration list for PBXProject "SF-Symbol-Finder" */;
-			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -226,6 +227,7 @@
 				ko,
 			);
 			mainGroup = ADD4C0042B95B96C00B6E862;
+			preferredProjectObjectVersion = 90;
 			productRefGroup = ADD4C00E2B95B96C00B6E862 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -238,27 +240,26 @@
 /* Begin PBXResourcesBuildPhase section */
 		ADD4C00B2B95B96C00B6E862 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 				ADD4C0182B95B96D00B6E862 /* Preview Assets.xcassets in Resources */,
 				AD548E162B96F29500FBB2CC /* Localizable.strings in Resources */,
 				ADD4C0152B95B96D00B6E862 /* Assets.xcassets in Resources */,
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		ADD4C0092B95B96C00B6E862 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 				AD19B5E02BBD9F5100847DF7 /* SFSymbolClassifier.mlmodel in Sources */,
+				5705ECC72E7AF51500663DBD /* InformView.swift in Sources */,
 				ADD4C0292B95BD7300B6E862 /* Color+Extension.swift in Sources */,
 				ADD4C03A2B95C75000B6E862 /* CanvasView.swift in Sources */,
 				ADD4C0372B95C4DB00B6E862 /* SFSymbolListView.swift in Sources */,
 				AD548E0D2B960C6200FBB2CC /* DeviceModel.swift in Sources */,
 				ADD4C03E2B95C86300B6E862 /* ResultView.swift in Sources */,
+				5705ECC52E7AF50900663DBD /* DrawingFinderView.swift in Sources */,
 				ADD4C0132B95B96C00B6E862 /* ContentView.swift in Sources */,
 				AD548E1B2B96F30600FBB2CC /* String+Extension.swift in Sources */,
 				AD548E112B96118D00FBB2CC /* Orientation.swift in Sources */,
@@ -268,7 +269,6 @@
 				ADD4C0312B95C28500B6E862 /* Result.swift in Sources */,
 				ADD4C02C2B95BD9900B6E862 /* Constants.swift in Sources */,
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
@@ -285,7 +285,7 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		ADD4C0192B95B96D00B6E862 /* Debug */ = {
+		ADD4C0192B95B96D00B6E862 /* Debug configuration for PBXProject "SF-Symbol-Finder" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -350,7 +350,7 @@
 			};
 			name = Debug;
 		};
-		ADD4C01A2B95B96D00B6E862 /* Release */ = {
+		ADD4C01A2B95B96D00B6E862 /* Release configuration for PBXProject "SF-Symbol-Finder" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -408,7 +408,7 @@
 			};
 			name = Release;
 		};
-		ADD4C01C2B95B96D00B6E862 /* Debug */ = {
+		ADD4C01C2B95B96D00B6E862 /* Debug configuration for PBXNativeTarget "SF-Symbol-Finder" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -427,6 +427,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -436,8 +437,9 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "me.zena.SF-Symbol-Finder";
 				PRODUCT_NAME = "SF Symbols Finder";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
-				SUPPORTS_MACCATALYST = YES;
+				REGISTER_APP_GROUPS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -445,7 +447,7 @@
 			};
 			name = Debug;
 		};
-		ADD4C01D2B95B96D00B6E862 /* Release */ = {
+		ADD4C01D2B95B96D00B6E862 /* Release configuration for PBXNativeTarget "SF-Symbol-Finder" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -464,6 +466,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -473,8 +476,9 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "me.zena.SF-Symbol-Finder";
 				PRODUCT_NAME = "SF Symbols Finder";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
-				SUPPORTS_MACCATALYST = YES;
+				REGISTER_APP_GROUPS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = RELEASE;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -489,19 +493,17 @@
 		ADD4C0082B95B96C00B6E862 /* Build configuration list for PBXProject "SF-Symbol-Finder" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				ADD4C0192B95B96D00B6E862 /* Debug */,
-				ADD4C01A2B95B96D00B6E862 /* Release */,
+				ADD4C0192B95B96D00B6E862 /* Debug configuration for PBXProject "SF-Symbol-Finder" */,
+				ADD4C01A2B95B96D00B6E862 /* Release configuration for PBXProject "SF-Symbol-Finder" */,
 			);
-			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 		ADD4C01B2B95B96D00B6E862 /* Build configuration list for PBXNativeTarget "SF-Symbol-Finder" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				ADD4C01C2B95B96D00B6E862 /* Debug */,
-				ADD4C01D2B95B96D00B6E862 /* Release */,
+				ADD4C01C2B95B96D00B6E862 /* Debug configuration for PBXNativeTarget "SF-Symbol-Finder" */,
+				ADD4C01D2B95B96D00B6E862 /* Release configuration for PBXNativeTarget "SF-Symbol-Finder" */,
 			);
-			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */

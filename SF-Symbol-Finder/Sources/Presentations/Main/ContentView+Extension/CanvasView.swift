@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-extension ContentView {
+extension DrawingFinderView {
     var canvasView: some View {
         ZStack {
             canvasRepresentingView

@@ -43,9 +43,19 @@ extension String {
 
 // MARK: - SF Symbols
 extension String {
-    static let chevronBackward = "chevron.backward"
-    static let docOnClipboard = "doc.on.clipboard"
-    static let arrowUturnBackward = "arrow.uturn.backward"
-    static let arrowUturnForward = "arrow.uturn.forward"
-    static let exclamationmarkWarninglightFill = "exclamationmark.warninglight.fill"
+    struct SFSymbol {
+        static let chevronBackward = "chevron.backward"
+        static let docOnClipboard = "doc.on.clipboard"
+        static let arrowUturnBackward = "arrow.uturn.backward"
+        static let arrowUturnForward = "arrow.uturn.forward"
+        static let exclamationmarkWarninglightFill = "exclamationmark.warninglight.fill"
+        static let gearshape = "gearshape"
+    }
+}
+
+// MARK: - Image
+extension String {
+    struct Image {
+        static let imgAppIcon = "img_app_icon"
+    }
 }

@@ -39,6 +39,14 @@ extension String {
     static let guideOnClickToCopy = "GuideOnClickToCopy".localized()
     static let alertCopied = "AlertCopied".localized()
 
+    /* NaturalLanguageSearchView */
+    static let searchModeDraw = "SearchModeDraw".localized()
+    static let searchModeDescribe = "SearchModeDescribe".localized()
+    static let nlSearchPlaceholder = "NLSearchPlaceholder".localized()
+    static let nlSearchGuide = "NLSearchGuide".localized()
+    static let nlSearching = "NLSearching".localized()
+    static let nlNoResults = "NLNoResults".localized()
+
 }
 
 // MARK: - SF Symbols

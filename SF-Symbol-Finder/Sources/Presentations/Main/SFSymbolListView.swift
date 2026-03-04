@@ -16,6 +16,7 @@ struct SFSymbolListView: View {
         return Constants.sfsymbols.filter({ $0.contains(keywordReplaced)})
     }
     @State private var showClipboardAlert = false
+    @State private var selectedSymbol: String?
     @Environment(\.dismiss) private var dismiss
     var body: some View {
         ZStack {
@@ -30,7 +31,7 @@ struct SFSymbolListView: View {
                             ZStack {
                                 Rectangle()
                                     .stroke(Color.accentColor, lineWidth: 0.5)
-                                    .background(Color.neutral)
+                                    .background(selectedSymbol == systemName ? Color.accentColor.opacity(0.3) : Color.neutral)
                                 HStack(spacing: 10) {
                                     Image(systemName: systemName)
                                         .font(.largeTitle)
@@ -45,7 +46,11 @@ struct SFSymbolListView: View {
                             }
                             .onTapGesture {
                                 UIPasteboard.general.string = systemName
+                                selectedSymbol = systemName
                                 showClipboardAlert = true
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+                                    selectedSymbol = nil
+                                }
                             }
                         }
                     }

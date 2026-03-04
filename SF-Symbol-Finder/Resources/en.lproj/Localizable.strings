@@ -24,3 +24,11 @@
 /* SFSymbolListView*/
 "GuideOnClickToCopy" = "Click to copy the name to the clipboard";
 "AlertCopied" = "Copied to clipboard";
+
+/* NaturalLanguageSearchView */
+"SearchModeDraw" = "Draw";
+"SearchModeDescribe" = "Describe";
+"NLSearchPlaceholder" = "Describe the symbol (e.g. icon for share button)";
+"NLSearchGuide" = "Describe the SF Symbol you're looking for,\nand we'll find it for you.";
+"NLSearching" = "Searching for symbols...";
+"NLNoResults" = "No matching symbols found.\nTry a different description.";

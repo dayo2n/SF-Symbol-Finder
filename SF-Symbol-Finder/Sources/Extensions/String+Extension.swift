@@ -46,6 +46,10 @@ extension String {
     static let nlSearchGuide = "NLSearchGuide".localized()
     static let nlSearching = "NLSearching".localized()
     static let nlNoResults = "NLNoResults".localized()
+    static let nlModelDeviceNotEligible = "NLModelDeviceNotEligible".localized()
+    static let nlModelNotEnabled = "NLModelNotEnabled".localized()
+    static let nlModelNotReady = "NLModelNotReady".localized()
+    static let nlModelError = "NLModelError".localized()
 
 }
 

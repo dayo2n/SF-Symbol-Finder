@@ -31,6 +31,8 @@ struct ContentView: View {
     @State var showErrorAlert = false
     @State var onAppeared = false
     @State private var searchMode: SearchMode = .describe
+    @State private var isSearchActive = false
+    @FocusState private var isSearchFieldFocused: Bool
     #if canImport(FoundationModels)
     @StateObject private var nlSearchViewModel = {
         if #available(iOS 26.0, *) {
@@ -46,35 +48,128 @@ struct ContentView: View {
     }
 
     var body: some View {
+        #if canImport(FoundationModels)
+        if #available(iOS 26.0, *) {
+            tabViewBody
+                .onAppear {
+                    if !onAppeared {
+                        canvasRepresentingView = CanvasRepresentingView(isClear: $isClear)
+                        onAppeared = true
+                    }
+                }
+        } else {
+            legacyBody
+        }
+        #else
+        legacyBody
+        #endif
+    }
+
+    #if canImport(FoundationModels)
+    @available(iOS 26.0, *)
+    private var tabViewBody: some View {
         ZStack {
             Color.neutral.ignoresSafeArea()
-            VStack(spacing: 0) {
-                searchModePicker
-                if searchMode == .draw {
-                    drawContent
+
+            Group {
+                if searchMode == .describe {
+                    NaturalLanguageSearchView(viewModel: nlSearchViewModel)
                 } else {
-                    describeContent
+                    drawContent
                 }
             }
 
             if showErrorAlert {
-                Color.black
-                    .opacity(0.8)
-                VStack(spacing: 10) {
-                    Image(systemName: .exclamationmarkWarninglightFill)
-                        .font(.title)
-                        .foregroundStyle(.white)
-                    Text(String.errorAlert)
-                        .font(.title2)
-                        .bold()
-                        .multilineTextAlignment(.center)
-                        .foregroundStyle(.white)
+                errorOverlay
+            }
+        }
+        .safeAreaInset(edge: .bottom) {
+            bottomBar
+                .padding(.horizontal)
+                .padding(.vertical, 8)
+        }
+        .animation(.spring(duration: 0.3), value: isSearchActive)
+    }
+
+    @available(iOS 26.0, *)
+    @ViewBuilder
+    private var bottomBar: some View {
+        HStack(spacing: 12) {
+            if !isSearchActive {
+                HStack(spacing: 0) {
+                    tabButton(mode: .describe, icon: "text.magnifyingglass")
+                    tabButton(mode: .draw, icon: "pencil.and.scribble")
                 }
-                .padding(30)
-                .background (
-                    RoundedRectangle(cornerRadius: 8)
-                        .foregroundStyle(.gray)
-                )
+                .padding(.horizontal, 6)
+                .padding(.vertical, 4)
+                .glassEffect(.regular, in: .capsule)
+                .transition(.move(edge: .leading).combined(with: .opacity))
+            }
+
+            if isSearchActive {
+                TextField(String.nlSearchPlaceholder, text: $nlSearchViewModel.searchText)
+                    .font(.subheadline)
+                    .focused($isSearchFieldFocused)
+                    .submitLabel(.search)
+                    .onSubmit { nlSearchViewModel.performSearch() }
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 8)
+                    .glassEffect(.regular, in: .capsule)
+                    .transition(.move(edge: .trailing).combined(with: .opacity))
+            }
+
+            Spacer()
+
+            if searchMode == .describe || isSearchActive {
+                Button {
+                    withAnimation(.spring(duration: 0.35, bounce: 0.15)) {
+                        isSearchActive.toggle()
+                        if isSearchActive {
+                            isSearchFieldFocused = true
+                        } else {
+                            isSearchFieldFocused = false
+                            nlSearchViewModel.searchText = ""
+                        }
+                    }
+                } label: {
+                    Image(systemName: isSearchActive ? "xmark" : "magnifyingglass")
+                        .font(.body.weight(.medium))
+                        .contentTransition(.symbolEffect(.replace))
+                        .padding(14)
+                }
+                .glassEffect(.regular.interactive(), in: .circle)
+            }
+        }
+    }
+
+    @available(iOS 26.0, *)
+    private func tabButton(mode: SearchMode, icon: String) -> some View {
+        Button {
+            withAnimation(.spring(duration: 0.25)) {
+                searchMode = mode
+            }
+        } label: {
+            VStack(spacing: 2) {
+                Image(systemName: icon)
+                    .font(.body)
+                Text(mode.title)
+                    .font(.caption2)
+            }
+            .padding(.horizontal, 14)
+            .padding(.vertical, 6)
+            .glassEffect(searchMode == mode ? .regular : .identity, in: .capsule)
+        }
+        .opacity(searchMode == mode ? 1.0 : 0.5)
+    }
+    #endif
+
+    private var legacyBody: some View {
+        ZStack {
+            Color.neutral.ignoresSafeArea()
+            drawContent
+
+            if showErrorAlert {
+                errorOverlay
             }
         }
         .onAppear {
@@ -85,41 +180,40 @@ struct ContentView: View {
         }
     }
 
-    @ViewBuilder
-    private var searchModePicker: some View {
-        #if canImport(FoundationModels)
-        if #available(iOS 26.0, *) {
-            Picker("", selection: $searchMode) {
-                ForEach(SearchMode.allCases, id: \.self) { mode in
-                    Text(mode.title).tag(mode)
-                }
+    private var errorOverlay: some View {
+        ZStack {
+            Color.black.opacity(0.8)
+            VStack(spacing: 10) {
+                Image(systemName: .exclamationmarkWarninglightFill)
+                    .font(.title)
+                    .foregroundStyle(.white)
+                Text(String.errorAlert)
+                    .font(.title2)
+                    .bold()
+                    .multilineTextAlignment(.center)
+                    .foregroundStyle(.white)
             }
-            .pickerStyle(.segmented)
-            .padding(.horizontal, defaultPadding)
-            .padding(.top, 8)
+            .padding(30)
+            .background(
+                RoundedRectangle(cornerRadius: 8)
+                    .foregroundStyle(.gray)
+            )
         }
-        #endif
     }
 
     private var drawContent: some View {
-        Group {
-            if orientation.orientation == .portrait {
-                contentsInVStack
-            } else {
-                contentsInHStack
+        ZStack {
+            Color.neutral.ignoresSafeArea()
+            Group {
+                if orientation.orientation == .portrait {
+                    contentsInVStack
+                } else {
+                    contentsInHStack
+                }
             }
         }
     }
 
-    @ViewBuilder
-    private var describeContent: some View {
-        #if canImport(FoundationModels)
-        if #available(iOS 26.0, *) {
-            NaturalLanguageSearchView(viewModel: nlSearchViewModel)
-        }
-        #endif
-    }
-    
     private var contentsInHStack: some View {
         VStack {
             Spacer()
@@ -141,7 +235,7 @@ struct ContentView: View {
             Spacer()
         }
     }
-    
+
     private var contentsInVStack: some View {
         VStack {
             #if DEBUG

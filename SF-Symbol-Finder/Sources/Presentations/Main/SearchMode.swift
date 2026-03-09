@@ -10,14 +10,14 @@ import Foundation
 enum SearchMode: String, CaseIterable {
   case browse
   case draw
-  case search
+  case describe
   case settings
 
   var title: String {
     switch self {
     case .draw: return String.searchModeDraw
     case .browse: return String.searchModeBrowse
-    case .search: return String.searchModeSearch
+    case .describe: return String.searchModeDescribe
     case .settings: return String.settings
     }
   }

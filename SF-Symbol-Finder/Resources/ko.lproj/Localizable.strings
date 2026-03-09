@@ -28,7 +28,7 @@
 /* NaturalLanguageSearchView */
 "SearchModeDraw" = "그리기";
 "SearchModeBrowse" = "전체";
-"SearchModeSearch" = "검색";
+"SearchModeDescribe" = "검색";
 "NLSearchPlaceholder" = "심볼을 설명해 주세요 (예: 공유 버튼에 쓸 아이콘)";
 "NLSearchGuide" = "찾고 싶은 SF Symbol을 설명하면\n해당하는 심볼을 찾아드릴게요.";
 "NLSearching" = "심볼을 검색하는 중...";

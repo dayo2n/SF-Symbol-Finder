@@ -28,7 +28,7 @@
 /* NaturalLanguageSearchView */
 "SearchModeDraw" = "Draw";
 "SearchModeBrowse" = "All";
-"SearchModeSearch" = "Search";
+"SearchModeDescribe" = "Search";
 "NLSearchPlaceholder" = "Describe the symbol (e.g. icon for share button)";
 "NLSearchGuide" = "Describe the SF Symbol you're looking for,\nand we'll find it for you.";
 "NLSearching" = "Searching for symbols...";

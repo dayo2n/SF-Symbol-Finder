@@ -42,7 +42,7 @@ extension String {
     /* NaturalLanguageSearchView */
     static let searchModeDraw = "SearchModeDraw".localized()
     static let searchModeBrowse = "SearchModeBrowse".localized()
-  static let searchModeSearch = "searchModeSearch".localized()
+    static let searchModeDescribe = "SearchModeDescribe".localized()
     static let nlSearchPlaceholder = "NLSearchPlaceholder".localized()
     static let nlSearchGuide = "NLSearchGuide".localized()
     static let nlSearching = "NLSearching".localized()

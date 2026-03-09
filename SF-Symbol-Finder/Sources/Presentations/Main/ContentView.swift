@@ -71,7 +71,7 @@ struct ContentView: View {
         Tab(String.settings, systemImage: "gearshape", value: .settings) {
           SettingsView()
         }
-        Tab(value: .search, role: .search) {
+        Tab(value: .describe, role: .search) {
           NavigationStack {
             ZStack {
               Color.neutral.ignoresSafeArea()
@@ -82,7 +82,7 @@ struct ContentView: View {
           .searchFocused($isSearchFocused)
           .onSubmit(of: .search) { nlSearchViewModel.performSearch() }
           .onChange(of: searchMode) {
-            if searchMode == .search {
+            if searchMode == .describe {
               isSearchFocused = true
             }
           }

@@ -8,7 +8,7 @@
 import Foundation
 
 enum SearchMode: String, CaseIterable {
-  case describe
+  case browse
   case draw
   case search
   case settings
@@ -16,7 +16,7 @@ enum SearchMode: String, CaseIterable {
   var title: String {
     switch self {
     case .draw: return String.searchModeDraw
-    case .describe: return String.searchModeDescribe
+    case .browse: return String.searchModeBrowse
     case .search: return String.searchModeSearch
     case .settings: return String.settings
     }

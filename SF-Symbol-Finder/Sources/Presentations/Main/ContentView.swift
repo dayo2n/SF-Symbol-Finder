@@ -62,7 +62,7 @@ struct ContentView: View {
         Tab(String.searchModeDraw, systemImage: "pencil.and.scribble", value: .draw) {
           drawContent
         }
-        Tab(String.searchModeDescribe, systemImage: "square.grid.2x2", value: .describe) {
+        Tab(String.searchModeBrowse, systemImage: "square.grid.2x2", value: .browse) {
           ZStack {
             Color.neutral.ignoresSafeArea()
             SFSymbolListView(keyword: "")

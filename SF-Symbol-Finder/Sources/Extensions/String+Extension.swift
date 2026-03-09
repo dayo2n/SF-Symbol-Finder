@@ -51,6 +51,7 @@ extension String {
     static let nlModelNotEnabled = "NLModelNotEnabled".localized()
     static let nlModelNotReady = "NLModelNotReady".localized()
     static let nlModelError = "NLModelError".localized()
+    static let nlModelDisclaimer = "NLModelDisclaimer".localized()
 
     /* Settings */
     static let settings = "Settings".localized()

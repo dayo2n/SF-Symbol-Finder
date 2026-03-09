@@ -106,6 +106,13 @@ struct NaturalLanguageSearchView: View {
                 .font(.body)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
+            if !viewModel.hasSearched {
+                Text(String.nlModelDisclaimer)
+                    .font(.caption)
+                    .foregroundStyle(.tertiary)
+                    .multilineTextAlignment(.center)
+                    .padding(.top, 8)
+            }
             Spacer()
         } else {
             modelStatusBanner

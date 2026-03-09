@@ -37,6 +37,7 @@
 "NLModelNotEnabled" = "Enable Apple Intelligence to use AI search.\nGo to Settings > Apple Intelligence & Siri to turn it on.\nShowing results from basic keyword search.";
 "NLModelNotReady" = "The AI model is being prepared.\nPlease try again shortly.\nYou can check the status in Settings > Apple Intelligence & Siri.";
 "NLModelError" = "An error occurred during AI search.\nShowing results from basic keyword search.";
+"NLModelDisclaimer" = "Powered by Apple's Foundation Model.\nResults may not always be accurate.";
 
 /* Settings */
 "Settings" = "Settings";

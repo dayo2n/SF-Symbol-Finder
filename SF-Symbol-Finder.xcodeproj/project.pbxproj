@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		57A9B6992F5A9DD200CECF0B /* SearchMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A9B6982F5A9DD200CECF0B /* SearchMode.swift */; };
 		AD19B5E02BBD9F5100847DF7 /* SFSymbolClassifier.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = AD19B5DF2BBD9F5100847DF7 /* SFSymbolClassifier.mlmodel */; };
 		AD548E0D2B960C6200FBB2CC /* DeviceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD548E0C2B960C6200FBB2CC /* DeviceModel.swift */; };
 		AD548E112B96118D00FBB2CC /* Orientation.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD548E102B96118D00FBB2CC /* Orientation.swift */; };
@@ -27,9 +28,11 @@
 		CC0000012C8A000100000001 /* SymbolKeywords.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC0000022C8A000100000001 /* SymbolKeywords.swift */; };
 		CC0000032C8A000100000001 /* FoundationModelService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC0000042C8A000100000001 /* FoundationModelService.swift */; };
 		CC0000052C8A000100000001 /* NaturalLanguageSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC0000062C8A000100000001 /* NaturalLanguageSearchView.swift */; };
+		CC0000092C8A000100000001 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC00000A2C8A000100000001 /* SettingsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		57A9B6982F5A9DD200CECF0B /* SearchMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchMode.swift; sourceTree = "<group>"; };
 		AD19B5DF2BBD9F5100847DF7 /* SFSymbolClassifier.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = SFSymbolClassifier.mlmodel; sourceTree = "<group>"; };
 		AD548E0C2B960C6200FBB2CC /* DeviceModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceModel.swift; sourceTree = "<group>"; };
 		AD548E102B96118D00FBB2CC /* Orientation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Orientation.swift; sourceTree = "<group>"; };
@@ -53,6 +56,7 @@
 		CC0000022C8A000100000001 /* SymbolKeywords.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymbolKeywords.swift; sourceTree = "<group>"; };
 		CC0000042C8A000100000001 /* FoundationModelService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoundationModelService.swift; sourceTree = "<group>"; };
 		CC0000062C8A000100000001 /* NaturalLanguageSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NaturalLanguageSearchView.swift; sourceTree = "<group>"; };
+		CC00000A2C8A000100000001 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,6 +133,7 @@
 				ADD4C0242B95BD3500B6E862 /* Common */,
 				ADD4C0212B95BCCE00B6E862 /* Main */,
 				CC0000082C8A000100000001 /* NaturalLanguageSearch */,
+				CC00000B2C8A000100000001 /* Settings */,
 			);
 			path = Presentations;
 			sourceTree = "<group>";
@@ -140,6 +145,7 @@
 				ADD4C0122B95B96C00B6E862 /* ContentView.swift */,
 				ADD4C0382B95C73900B6E862 /* ContentView+Extension */,
 				ADD4C0362B95C4DB00B6E862 /* SFSymbolListView.swift */,
+				57A9B6982F5A9DD200CECF0B /* SearchMode.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -204,6 +210,14 @@
 				CC0000062C8A000100000001 /* NaturalLanguageSearchView.swift */,
 			);
 			path = NaturalLanguageSearch;
+			sourceTree = "<group>";
+		};
+		CC00000B2C8A000100000001 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				CC00000A2C8A000100000001 /* SettingsView.swift */,
+			);
+			path = Settings;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -284,6 +298,7 @@
 				ADD4C0372B95C4DB00B6E862 /* SFSymbolListView.swift in Sources */,
 				AD548E0D2B960C6200FBB2CC /* DeviceModel.swift in Sources */,
 				ADD4C03E2B95C86300B6E862 /* ResultView.swift in Sources */,
+				57A9B6992F5A9DD200CECF0B /* SearchMode.swift in Sources */,
 				ADD4C0132B95B96C00B6E862 /* ContentView.swift in Sources */,
 				AD548E1B2B96F30600FBB2CC /* String+Extension.swift in Sources */,
 				AD548E112B96118D00FBB2CC /* Orientation.swift in Sources */,
@@ -295,6 +310,7 @@
 				CC0000012C8A000100000001 /* SymbolKeywords.swift in Sources */,
 				CC0000032C8A000100000001 /* FoundationModelService.swift in Sources */,
 				CC0000052C8A000100000001 /* NaturalLanguageSearchView.swift in Sources */,
+				CC0000092C8A000100000001 /* SettingsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

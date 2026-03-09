@@ -9,6 +9,37 @@
 import FoundationModels
 
 @available(iOS 26.0, *)
+enum ModelStatus {
+    case available
+    case deviceNotEligible
+    case appleIntelligenceNotEnabled
+    case modelNotReady
+    case modelError
+
+    var localizedMessage: String {
+        switch self {
+        case .available:
+            return ""
+        case .deviceNotEligible:
+            return .nlModelDeviceNotEligible
+        case .appleIntelligenceNotEnabled:
+            return .nlModelNotEnabled
+        case .modelNotReady:
+            return .nlModelNotReady
+        case .modelError:
+            return .nlModelError
+        }
+    }
+}
+
+@available(iOS 26.0, *)
+struct SymbolSearchResult {
+    let symbols: [String]
+    let modelStatus: ModelStatus
+    let usedFallback: Bool
+}
+
+@available(iOS 26.0, *)
 final class FoundationModelService {
 
     private let session: LanguageModelSession
@@ -73,18 +104,37 @@ final class FoundationModelService {
         self.session = LanguageModelSession(instructions: instructions)
     }
 
-    func searchSymbols(for description: String) async throws -> [String] {
+    func searchSymbols(for description: String) async throws -> SymbolSearchResult {
         // Foundation Model로 키워드 추출 시도
         var keywords: [String] = []
+        var modelStatus: ModelStatus = .available
+        var usedFallback = false
 
-        if SystemLanguageModel.default.isAvailable {
+        switch SystemLanguageModel.default.availability {
+        case .available:
             do {
                 let prompt = "What SF Symbol name keywords are related to this description? Think broadly about all symbols that could match: \"\(description)\""
                 let response = try await session.respond(to: prompt, generating: SymbolKeywords.self)
                 keywords = response.content.keywords.map { $0.lowercased() }
             } catch {
-                // 모델 실패 시 폴백으로 진행
+                modelStatus = .modelError
+                usedFallback = true
             }
+        case .unavailable(let reason):
+            usedFallback = true
+            switch reason {
+            case .deviceNotEligible:
+                modelStatus = .deviceNotEligible
+            case .appleIntelligenceNotEnabled:
+                modelStatus = .appleIntelligenceNotEnabled
+            case .modelNotReady:
+                modelStatus = .modelNotReady
+            @unknown default:
+                modelStatus = .modelError
+            }
+        @unknown default:
+            modelStatus = .modelError
+            usedFallback = true
         }
 
         // 모델 미사용/실패 시 직접 키워드 분리
@@ -103,7 +153,7 @@ final class FoundationModelService {
             matchedSymbols = matchSymbols(with: singleChars)
         }
 
-        return matchedSymbols
+        return SymbolSearchResult(symbols: matchedSymbols, modelStatus: modelStatus, usedFallback: usedFallback)
     }
 
     private func matchSymbols(with keywords: [String]) -> [String] {

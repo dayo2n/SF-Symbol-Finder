@@ -41,11 +41,28 @@ extension String {
 
     /* NaturalLanguageSearchView */
     static let searchModeDraw = "SearchModeDraw".localized()
+    static let searchModeBrowse = "SearchModeBrowse".localized()
     static let searchModeDescribe = "SearchModeDescribe".localized()
     static let nlSearchPlaceholder = "NLSearchPlaceholder".localized()
     static let nlSearchGuide = "NLSearchGuide".localized()
     static let nlSearching = "NLSearching".localized()
     static let nlNoResults = "NLNoResults".localized()
+    static let nlModelDeviceNotEligible = "NLModelDeviceNotEligible".localized()
+    static let nlModelNotEnabled = "NLModelNotEnabled".localized()
+    static let nlModelNotReady = "NLModelNotReady".localized()
+    static let nlModelError = "NLModelError".localized()
+    static let nlModelDisclaimer = "NLModelDisclaimer".localized()
+
+    /* Settings */
+    static let settings = "Settings".localized()
+    static let settingsLanguage = "SettingsLanguage".localized()
+    static let settingsSFSymbols = "SettingsSFSymbols".localized()
+    static let settingsSFSymbolsVersion = "SettingsSFSymbolsVersion".localized()
+    static let settingsSFSymbolsVersionValue = "SettingsSFSymbolsVersionValue".localized()
+    static let settingsSFSymbolsCount = "SettingsSFSymbolsCount".localized()
+    static let settingsAppInfo = "SettingsAppInfo".localized()
+    static let settingsCurrentVersion = "SettingsCurrentVersion".localized()
+    static let settingsChangeLanguage = "SettingsChangeLanguage".localized()
 
 }
 

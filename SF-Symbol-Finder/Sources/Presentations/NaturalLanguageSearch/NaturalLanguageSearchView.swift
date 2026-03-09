@@ -14,6 +14,7 @@ final class NaturalLanguageSearchViewModel: ObservableObject {
     @Published var searchResults: [String] = []
     @Published var isSearching = false
     @Published var hasSearched = false
+    @Published var modelStatus: ModelStatus?
 
     private let service = FoundationModelService()
 
@@ -24,16 +25,19 @@ final class NaturalLanguageSearchViewModel: ObservableObject {
         isSearching = true
         hasSearched = true
         searchResults = []
+        modelStatus = nil
 
         Task {
             do {
-                let results = try await service.searchSymbols(for: query)
+                let result = try await service.searchSymbols(for: query)
                 await MainActor.run {
-                    self.searchResults = results
+                    self.searchResults = result.symbols
+                    self.modelStatus = result.usedFallback ? result.modelStatus : nil
                     self.isSearching = false
                 }
             } catch {
                 await MainActor.run {
+                    self.modelStatus = .modelError
                     self.isSearching = false
                 }
             }
@@ -46,17 +50,12 @@ struct NaturalLanguageSearchView: View {
     @ObservedObject var viewModel: NaturalLanguageSearchViewModel
     @State private var showClipboardAlert = false
     @State private var selectedSymbol: String?
-    @FocusState private var isTextFieldFocused: Bool
 
     var body: some View {
         ZStack {
-            Color.neutral.ignoresSafeArea()
-
-            VStack(spacing: 16) {
-                searchBar
+            VStack(spacing: 0) {
                 resultContent
             }
-            .padding()
 
             if showClipboardAlert {
                 clipboardAlert
@@ -64,53 +63,29 @@ struct NaturalLanguageSearchView: View {
         }
     }
 
-    private var searchBar: some View {
-        HStack(spacing: 12) {
-            HStack(spacing: 8) {
-                Image(systemName: "magnifyingglass")
-                    .foregroundStyle(.gray)
-                    .font(.subheadline)
-                TextField("", text: $viewModel.searchText, prompt: Text(String.nlSearchPlaceholder).foregroundColor(.white.opacity(0.5)))
-                    .font(.subheadline)
-                    .foregroundStyle(.white)
-                    .focused($isTextFieldFocused)
-                    .submitLabel(.search)
-                    .onSubmit { viewModel.performSearch() }
-                if !viewModel.searchText.isEmpty {
-                    Button {
-                        viewModel.searchText = ""
-                        viewModel.searchResults = []
-                        viewModel.hasSearched = false
-                        isTextFieldFocused = true
-                    } label: {
-                        Image(systemName: "xmark.circle.fill")
-                            .foregroundStyle(.gray)
-                            .font(.subheadline)
-                    }
-                }
+    @ViewBuilder
+    private var modelStatusBanner: some View {
+        if let status = viewModel.modelStatus {
+            HStack(alignment: .top, spacing: 10) {
+                Image(systemName: status == .modelNotReady ? "arrow.down.circle" : "exclamationmark.triangle.fill")
+                    .font(.body)
+                    .foregroundStyle(Color(red: 1.0, green: 0.85, blue: 0.7))
+                Text(status.localizedMessage)
+                    .font(.caption)
+                    .foregroundStyle(Color.white.opacity(0.85))
+                    .multilineTextAlignment(.leading)
+                Spacer()
             }
-            .padding(.horizontal, 12)
-            .padding(.vertical, 10)
-            .frame(minHeight: 44)
+            .padding(12)
             .background(
-                RoundedRectangle(cornerRadius: 12)
-                    .fill(Color.white.opacity(0.08))
+                RoundedRectangle(cornerRadius: 10)
+                    .fill(Color.orange.opacity(0.1))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 10)
+                            .stroke(Color.orange.opacity(0.3), lineWidth: 0.5)
+                    )
             )
-            .overlay(
-                RoundedRectangle(cornerRadius: 12)
-                    .stroke(Color.gray.opacity(0.3), lineWidth: 0.5)
-            )
-
-            Button {
-                isTextFieldFocused = false
-                viewModel.performSearch()
-            } label: {
-                Image(systemName: "arrow.right.circle.fill")
-                    .font(.title2)
-                    .foregroundStyle(Color.accentColor)
-            }
-            .disabled(viewModel.searchText.trimmingCharacters(in: .whitespaces).isEmpty || viewModel.isSearching)
-            .opacity(viewModel.searchText.trimmingCharacters(in: .whitespaces).isEmpty ? 0.4 : 1.0)
+            .padding(.horizontal)
         }
     }
 
@@ -119,75 +94,72 @@ struct NaturalLanguageSearchView: View {
         if viewModel.isSearching {
             Spacer()
             ProgressView()
-                .tint(.white)
             Text(String.nlSearching)
-                .foregroundStyle(.gray)
+                .foregroundStyle(.secondary)
             Spacer()
         } else if viewModel.searchResults.isEmpty {
+            if viewModel.modelStatus != nil {
+                modelStatusBanner
+            }
             Spacer()
             Text(viewModel.hasSearched ? String.nlNoResults : String.nlSearchGuide)
                 .font(.body)
-                .foregroundStyle(.gray)
+                .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
+            if !viewModel.hasSearched {
+                Text(String.nlModelDisclaimer)
+                    .font(.caption)
+                    .foregroundStyle(.tertiary)
+                    .multilineTextAlignment(.center)
+                    .padding(.top, 8)
+            }
             Spacer()
         } else {
-            Text(String.guideOnClickToCopy)
-                .font(.headline)
-                .foregroundStyle(Color.accentColor)
+            modelStatusBanner
 
-            HStack(spacing: 0) {
-                ScrollView {
-                    LazyVGrid(columns: [GridItem()]) {
-                        ForEach(viewModel.searchResults, id: \.self) { symbolName in
-                            ZStack {
-                                Rectangle()
-                                    .stroke(Color.accentColor, lineWidth: 0.5)
-                                    .background(selectedSymbol == symbolName ? Color.accentColor.opacity(0.3) : Color.neutral)
-                                HStack(spacing: 10) {
-                                    Image(systemName: symbolName)
-                                        .font(.largeTitle)
-                                        .padding()
-                                        .foregroundStyle(.white)
-                                        .frame(width: 80)
-                                    Text(symbolName)
-                                        .font(.subheadline)
-                                        .foregroundStyle(.white)
-                                    Spacer()
-                                }
-                            }
-                            .onTapGesture {
-                                UIPasteboard.general.string = symbolName
-                                selectedSymbol = symbolName
-                                showClipboardAlert = true
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
-                                    selectedSymbol = nil
-                                }
+            ScrollView {
+                LazyVStack(spacing: 0) {
+                    ForEach(viewModel.searchResults, id: \.self) { symbolName in
+                        HStack(spacing: 14) {
+                            Image(systemName: symbolName)
+                                .font(.title2)
+                                .frame(width: 40, height: 40)
+                            Text(symbolName)
+                                .font(.subheadline)
+                            Spacer()
+                        }
+                        .padding(.horizontal)
+                        .padding(.vertical, 10)
+                        .background(selectedSymbol == symbolName ? Color.accentColor.opacity(0.2) : Color.clear)
+                        .contentShape(Rectangle())
+                        .onTapGesture {
+                            UIPasteboard.general.string = symbolName
+                            selectedSymbol = symbolName
+                            showClipboardAlert = true
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+                                selectedSymbol = nil
                             }
                         }
+                        Divider()
+                            .padding(.leading, 68)
                     }
-                    .padding(.trailing, 4)
                 }
-                .scrollDismissesKeyboard(.interactively)
             }
+            .scrollDismissesKeyboard(.interactively)
         }
     }
 
     private var clipboardAlert: some View {
         ZStack {
-            Color.black.opacity(0.7).ignoresSafeArea()
+            Color.black.opacity(0.5).ignoresSafeArea()
             HStack(spacing: 10) {
                 Image(systemName: .docOnClipboard)
                     .font(.title3)
-                    .foregroundStyle(.white)
                 Text(String.alertCopied)
                     .font(.title3)
-                    .foregroundStyle(.white)
             }
             .padding()
-            .background(
-                RoundedRectangle(cornerRadius: 8)
-                    .foregroundColor(.gray.opacity(0.5))
-            )
+            .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 12))
             .onAppear {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
                     showClipboardAlert = false

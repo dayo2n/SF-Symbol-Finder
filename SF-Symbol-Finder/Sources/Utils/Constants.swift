@@ -9,6 +9,7 @@ import SwiftUI
 
 struct Constants {
     static let deviceModel = UIDevice.current.model
+
     static let sfsymbols = [
         "clock.badge.questionmark.fill",
         "chevron.forward.2",

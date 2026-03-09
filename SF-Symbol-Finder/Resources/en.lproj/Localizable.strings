@@ -27,7 +27,8 @@
 
 /* NaturalLanguageSearchView */
 "SearchModeDraw" = "Draw";
-"SearchModeDescribe" = "Describe";
+"SearchModeDescribe" = "All";
+"SearchModeSearch" = "Search";
 "NLSearchPlaceholder" = "Describe the symbol (e.g. icon for share button)";
 "NLSearchGuide" = "Describe the SF Symbol you're looking for,\nand we'll find it for you.";
 "NLSearching" = "Searching for symbols...";
@@ -36,3 +37,14 @@
 "NLModelNotEnabled" = "Enable Apple Intelligence to use AI search.\nGo to Settings > Apple Intelligence & Siri to turn it on.\nShowing results from basic keyword search.";
 "NLModelNotReady" = "The AI model is being prepared.\nPlease try again shortly.\nYou can check the status in Settings > Apple Intelligence & Siri.";
 "NLModelError" = "An error occurred during AI search.\nShowing results from basic keyword search.";
+
+/* Settings */
+"Settings" = "Settings";
+"SettingsLanguage" = "Language";
+"SettingsSFSymbols" = "SF Symbols";
+"SettingsSFSymbolsVersion" = "SF Symbols Version";
+"SettingsSFSymbolsVersionValue" = "5.1";
+"SettingsSFSymbolsCount" = "Symbol Count";
+"SettingsAppInfo" = "App Info";
+"SettingsCurrentVersion" = "Current Version";
+"SettingsChangeLanguage" = "Change Language";

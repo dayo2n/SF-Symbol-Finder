@@ -13,6 +13,9 @@ struct SFSymbolListView: View {
         keyword.replacingOccurrences(of: "_", with: ".")
     }
     private var systemNames: [String] {
+        if keywordReplaced.isEmpty {
+            return Constants.sfsymbols
+        }
         return Constants.sfsymbols.filter({ $0.contains(keywordReplaced)})
     }
     @State private var showClipboardAlert = false
@@ -58,31 +61,33 @@ struct SFSymbolListView: View {
                 .padding()
                 .padding(.top, 40)
             }
-            VStack {
-                ZStack {
-                    HStack {
-                        Spacer()
-                        Text(keywordReplaced)
-                            .foregroundStyle(Color.accentColor)
-                            .font(.body)
-                        Spacer()
-                    }
-                    HStack {
-                        Button {
-                            dismiss()
-                        } label: {
-                            Image(systemName: .chevronBackward)
-                                .font(.headline)
-                                .fontWeight(.bold)
+            if !keyword.isEmpty {
+                VStack {
+                    ZStack {
+                        HStack {
+                            Spacer()
+                            Text(keywordReplaced)
                                 .foregroundStyle(Color.accentColor)
+                                .font(.body)
+                            Spacer()
                         }
-                        .padding()
-                        Spacer()
+                        HStack {
+                            Button {
+                                dismiss()
+                            } label: {
+                                Image(systemName: .chevronBackward)
+                                    .font(.headline)
+                                    .fontWeight(.bold)
+                                    .foregroundStyle(Color.accentColor)
+                            }
+                            .padding()
+                            Spacer()
+                        }
                     }
+                    .background(Color.black.opacity(0.3))
+                    Spacer()
+                    Spacer()
                 }
-                .background(Color.black.opacity(0.3))
-                Spacer()
-                Spacer()
             }
             
             if showClipboardAlert {

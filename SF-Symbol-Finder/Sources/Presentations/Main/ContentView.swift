@@ -9,248 +9,181 @@ import SwiftUI
 import CoreML
 import Vision
 
-enum SearchMode: String, CaseIterable {
-    case describe
-    case draw
-
-    var title: String {
-        switch self {
-        case .draw: return String.searchModeDraw
-        case .describe: return String.searchModeDescribe
-        }
-    }
-}
-
 struct ContentView: View {
-    @State var isClear = false
-    @State var canvasRepresentingView: CanvasRepresentingView?
-    @Environment(\.undoManager) var undoManager
-    @State var results = [Result]()
-    @State var isNavigate = false
-    @State var selectedLabel = ""
-    @State var showErrorAlert = false
-    @State var onAppeared = false
-    @State private var searchMode: SearchMode = .describe
-    @State private var isSearchActive = false
-    @FocusState private var isSearchFieldFocused: Bool
-    #if canImport(FoundationModels)
-    @StateObject private var nlSearchViewModel = {
-        if #available(iOS 26.0, *) {
-            return NaturalLanguageSearchViewModel()
-        } else {
-            fatalError()
-        }
-    }()
-    #endif
-    @EnvironmentObject var orientation: Orientation
-    var defaultPadding: CGFloat {
-        Constants.deviceModel == DeviceModel.iPad.rawValue ? 30 : 10
+  @State var isClear = false
+  @State var canvasRepresentingView: CanvasRepresentingView?
+  @Environment(\.undoManager) var undoManager
+  @State var results = [Result]()
+  @State var isNavigate = false
+  @State var selectedLabel = ""
+  @State var showErrorAlert = false
+  @State var onAppeared = false
+  @State private var searchMode: SearchMode = .draw
+  @State private var isSearchActive = false
+  @FocusState private var isSearchFieldFocused: Bool
+  @FocusState private var isSearchFocused: Bool
+#if canImport(FoundationModels)
+  @StateObject private var nlSearchViewModel = {
+    if #available(iOS 26.0, *) {
+      return NaturalLanguageSearchViewModel()
+    } else {
+      fatalError()
     }
-
-    var body: some View {
-        #if canImport(FoundationModels)
-        if #available(iOS 26.0, *) {
-            tabViewBody
-                .onAppear {
-                    if !onAppeared {
-                        canvasRepresentingView = CanvasRepresentingView(isClear: $isClear)
-                        onAppeared = true
-                    }
-                }
-        } else {
-            legacyBody
-        }
-        #else
-        legacyBody
-        #endif
-    }
-
-    #if canImport(FoundationModels)
-    @available(iOS 26.0, *)
-    private var tabViewBody: some View {
-        ZStack {
-            Color.neutral.ignoresSafeArea()
-
-            Group {
-                if searchMode == .describe {
-                    NaturalLanguageSearchView(viewModel: nlSearchViewModel)
-                } else {
-                    drawContent
-                }
-            }
-
-            if showErrorAlert {
-                errorOverlay
-            }
-        }
-        .safeAreaInset(edge: .bottom) {
-            bottomBar
-                .padding(.horizontal)
-                .padding(.vertical, 8)
-        }
-        .animation(.spring(duration: 0.3), value: isSearchActive)
-    }
-
-    @available(iOS 26.0, *)
-    @ViewBuilder
-    private var bottomBar: some View {
-        HStack(spacing: 12) {
-            if !isSearchActive {
-                HStack(spacing: 0) {
-                    tabButton(mode: .describe, icon: "text.magnifyingglass")
-                    tabButton(mode: .draw, icon: "pencil.and.scribble")
-                }
-                .padding(.horizontal, 6)
-                .padding(.vertical, 4)
-                .glassEffect(.regular, in: .capsule)
-                .transition(.move(edge: .leading).combined(with: .opacity))
-            }
-
-            if isSearchActive {
-                TextField(String.nlSearchPlaceholder, text: $nlSearchViewModel.searchText)
-                    .font(.subheadline)
-                    .focused($isSearchFieldFocused)
-                    .submitLabel(.search)
-                    .onSubmit { nlSearchViewModel.performSearch() }
-                    .padding(.horizontal, 12)
-                    .padding(.vertical, 8)
-                    .glassEffect(.regular, in: .capsule)
-                    .transition(.move(edge: .trailing).combined(with: .opacity))
-            }
-
-            Spacer()
-
-            if searchMode == .describe || isSearchActive {
-                Button {
-                    withAnimation(.spring(duration: 0.35, bounce: 0.15)) {
-                        isSearchActive.toggle()
-                        if isSearchActive {
-                            isSearchFieldFocused = true
-                        } else {
-                            isSearchFieldFocused = false
-                            nlSearchViewModel.searchText = ""
-                        }
-                    }
-                } label: {
-                    Image(systemName: isSearchActive ? "xmark" : "magnifyingglass")
-                        .font(.body.weight(.medium))
-                        .contentTransition(.symbolEffect(.replace))
-                        .padding(14)
-                }
-                .glassEffect(.regular.interactive(), in: .circle)
-            }
-        }
-    }
-
-    @available(iOS 26.0, *)
-    private func tabButton(mode: SearchMode, icon: String) -> some View {
-        Button {
-            withAnimation(.spring(duration: 0.25)) {
-                searchMode = mode
-            }
-        } label: {
-            VStack(spacing: 2) {
-                Image(systemName: icon)
-                    .font(.body)
-                Text(mode.title)
-                    .font(.caption2)
-            }
-            .padding(.horizontal, 14)
-            .padding(.vertical, 6)
-            .glassEffect(searchMode == mode ? .regular : .identity, in: .capsule)
-        }
-        .opacity(searchMode == mode ? 1.0 : 0.5)
-    }
-    #endif
-
-    private var legacyBody: some View {
-        ZStack {
-            Color.neutral.ignoresSafeArea()
-            drawContent
-
-            if showErrorAlert {
-                errorOverlay
-            }
-        }
+  }()
+#endif
+  @EnvironmentObject var orientation: Orientation
+  var defaultPadding: CGFloat {
+    Constants.deviceModel == DeviceModel.iPad.rawValue ? 30 : 10
+  }
+  
+  var body: some View {
+#if canImport(FoundationModels)
+    if #available(iOS 26.0, *) {
+      tabViewBody
         .onAppear {
-            if !onAppeared {
-                canvasRepresentingView = CanvasRepresentingView(isClear: $isClear)
-                onAppeared = true
-            }
+          if !onAppeared {
+            canvasRepresentingView = CanvasRepresentingView(isClear: $isClear)
+            onAppeared = true
+          }
         }
+    } else {
+      legacyBody
     }
-
-    private var errorOverlay: some View {
-        ZStack {
-            Color.black.opacity(0.8)
-            VStack(spacing: 10) {
-                Image(systemName: .exclamationmarkWarninglightFill)
-                    .font(.title)
-                    .foregroundStyle(.white)
-                Text(String.errorAlert)
-                    .font(.title2)
-                    .bold()
-                    .multilineTextAlignment(.center)
-                    .foregroundStyle(.white)
-            }
-            .padding(30)
-            .background(
-                RoundedRectangle(cornerRadius: 8)
-                    .foregroundStyle(.gray)
-            )
+#else
+    legacyBody
+#endif
+  }
+  
+#if canImport(FoundationModels)
+  @available(iOS 26.0, *)
+  private var tabViewBody: some View {
+    ZStack {
+      TabView(selection: $searchMode) {
+        Tab(String.searchModeDraw, systemImage: "pencil.and.scribble", value: .draw) {
+          drawContent
         }
-    }
-
-    private var drawContent: some View {
-        ZStack {
+        Tab(String.searchModeDescribe, systemImage: "square.grid.2x2", value: .describe) {
+          ZStack {
             Color.neutral.ignoresSafeArea()
-            Group {
-                if orientation.orientation == .portrait {
-                    contentsInVStack
-                } else {
-                    contentsInHStack
-                }
+            SFSymbolListView(keyword: "")
+          }
+        }
+        Tab(String.settings, systemImage: "gearshape", value: .settings) {
+          SettingsView()
+        }
+        Tab(value: .search, role: .search) {
+          NavigationStack {
+            ZStack {
+              Color.neutral.ignoresSafeArea()
+              NaturalLanguageSearchView(viewModel: nlSearchViewModel)
             }
-        }
-    }
-
-    private var contentsInHStack: some View {
-        VStack {
-            Spacer()
-            HStack {
-                #if DEBUG
-                canvasView
-                    .padding(.leading, defaultPadding)
-                    .frame(maxWidth: 1000, maxHeight: 1000)
-                #elseif RELEASE
-                canvasView
-                    .padding(.leading, defaultPadding)
-                    .frame(maxWidth: 500, maxHeight: 500)
-                #endif
-                resultView
-                    .padding(.trailing, defaultPadding)
-                    .frame(maxWidth: 500, maxHeight: 500)
+          }
+          .searchable(text: $nlSearchViewModel.searchText, placement: .automatic, prompt: String.nlSearchPlaceholder)
+          .searchFocused($isSearchFocused)
+          .onSubmit(of: .search) { nlSearchViewModel.performSearch() }
+          .onChange(of: searchMode) {
+            if searchMode == .search {
+              isSearchFocused = true
             }
-            .padding(.vertical, defaultPadding)
-            Spacer()
+          }
         }
-    }
+      }
 
-    private var contentsInVStack: some View {
-        VStack {
-            #if DEBUG
-            canvasView
-                .padding(.top, defaultPadding)
-                .frame(maxWidth: 1000, maxHeight: 1000)
-            #elseif RELEASE
-            canvasView
-                .padding(.top, defaultPadding)
-                .frame(maxWidth: 500, maxHeight: 500)
-            #endif
-            resultView
-                .padding(.bottom, defaultPadding)
-                .frame(maxWidth: 500, maxHeight: 800)
-        }
-        .padding(.horizontal, defaultPadding)
+      if showErrorAlert {
+        errorOverlay
+      }
     }
+  }
+#endif
+  
+  private var legacyBody: some View {
+    ZStack {
+      Color.neutral.ignoresSafeArea()
+      drawContent
+      
+      if showErrorAlert {
+        errorOverlay
+      }
+    }
+    .onAppear {
+      if !onAppeared {
+        canvasRepresentingView = CanvasRepresentingView(isClear: $isClear)
+        onAppeared = true
+      }
+    }
+  }
+  
+  private var errorOverlay: some View {
+    ZStack {
+      Color.black.opacity(0.8)
+      VStack(spacing: 10) {
+        Image(systemName: .exclamationmarkWarninglightFill)
+          .font(.title)
+          .foregroundStyle(.white)
+        Text(String.errorAlert)
+          .font(.title2)
+          .bold()
+          .multilineTextAlignment(.center)
+          .foregroundStyle(.white)
+      }
+      .padding(30)
+      .background(
+        RoundedRectangle(cornerRadius: 8)
+          .foregroundStyle(.gray)
+      )
+    }
+  }
+  
+  private var drawContent: some View {
+    ZStack {
+      Color.neutral.ignoresSafeArea()
+      Group {
+        if orientation.orientation == .portrait {
+          contentsInVStack
+        } else {
+          contentsInHStack
+        }
+      }
+    }
+  }
+  
+  private var contentsInHStack: some View {
+    VStack {
+      Spacer()
+      HStack {
+#if DEBUG
+        canvasView
+          .padding(.leading, defaultPadding)
+          .frame(maxWidth: 1000, maxHeight: 1000)
+#elseif RELEASE
+        canvasView
+          .padding(.leading, defaultPadding)
+          .frame(maxWidth: 500, maxHeight: 500)
+#endif
+        resultView
+          .padding(.trailing, defaultPadding)
+          .frame(maxWidth: 500, maxHeight: 500)
+      }
+      .padding(.vertical, defaultPadding)
+      Spacer()
+    }
+  }
+  
+  private var contentsInVStack: some View {
+    VStack {
+#if DEBUG
+      canvasView
+        .padding(.top, defaultPadding)
+        .frame(maxWidth: 1000, maxHeight: 1000)
+#elseif RELEASE
+      canvasView
+        .padding(.top, defaultPadding)
+        .frame(maxWidth: 500, maxHeight: 500)
+#endif
+      resultView
+        .padding(.bottom, defaultPadding)
+        .frame(maxWidth: 500, maxHeight: 800)
+    }
+    .padding(.horizontal, defaultPadding)
+  }
 }

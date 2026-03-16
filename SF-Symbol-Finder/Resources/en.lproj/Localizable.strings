@@ -38,6 +38,11 @@
 "NLModelNotReady" = "The AI model is being prepared.\nPlease try again shortly.\nYou can check the status in Settings > Apple Intelligence & Siri.";
 "NLModelError" = "An error occurred during AI search.\nShowing results from basic keyword search.";
 "NLModelDisclaimer" = "Powered by Apple's Foundation Model.\nResults may not always be accurate.";
+"NLThinkingAnalyzing" = "Analyzing \"%@\"...";
+"NLThinkingSearching" = "Searching for matching symbols...";
+"NLThinkingFinding" = "Finding the best matches...";
+"NLThinkingDone" = "Found %d symbols";
+"NLThinkingNoResults" = "Couldn't find matching symbols";
 
 /* Settings */
 "Settings" = "Settings";

@@ -9,14 +9,27 @@
 import SwiftUI
 
 @available(iOS 26.0, *)
+enum ThinkingPhase: Equatable {
+    case idle
+    case analyzing
+    case searching
+    case finding
+    case done(count: Int)
+    case noResults
+}
+
+@available(iOS 26.0, *)
 final class NaturalLanguageSearchViewModel: ObservableObject {
     @Published var searchText = ""
     @Published var searchResults: [String] = []
     @Published var isSearching = false
     @Published var hasSearched = false
     @Published var modelStatus: ModelStatus?
+    @Published var thinkingPhase: ThinkingPhase = .idle
+    @Published var thinkingMessage: String = ""
 
     private let service = FoundationModelService()
+    private var thinkingTask: Task<Void, Never>?
 
     func performSearch() {
         let query = searchText.trimmingCharacters(in: .whitespaces)
@@ -26,6 +39,7 @@ final class NaturalLanguageSearchViewModel: ObservableObject {
         hasSearched = true
         searchResults = []
         modelStatus = nil
+        startThinking(query: query)
 
         Task {
             do {
@@ -34,13 +48,45 @@ final class NaturalLanguageSearchViewModel: ObservableObject {
                     self.searchResults = result.symbols
                     self.modelStatus = result.usedFallback ? result.modelStatus : nil
                     self.isSearching = false
+                    self.finishThinking(count: result.symbols.count)
                 }
             } catch {
                 await MainActor.run {
                     self.modelStatus = .modelError
                     self.isSearching = false
+                    self.finishThinking(count: 0)
                 }
             }
+        }
+    }
+
+    private func startThinking(query: String) {
+        thinkingTask?.cancel()
+        thinkingPhase = .analyzing
+        thinkingMessage = String.nlThinkingAnalyzing.localized(with: query)
+
+        thinkingTask = Task { @MainActor in
+            try? await Task.sleep(for: .seconds(1.2))
+            guard !Task.isCancelled else { return }
+            thinkingPhase = .searching
+            thinkingMessage = String.nlThinkingSearching
+
+            try? await Task.sleep(for: .seconds(1.5))
+            guard !Task.isCancelled else { return }
+            thinkingPhase = .finding
+            thinkingMessage = String.nlThinkingFinding
+        }
+    }
+
+    private func finishThinking(count: Int) {
+        thinkingTask?.cancel()
+        thinkingTask = nil
+        if count > 0 {
+            thinkingPhase = .done(count: count)
+            thinkingMessage = String.nlThinkingDone.localized(with: count)
+        } else {
+            thinkingPhase = .noResults
+            thinkingMessage = String.nlThinkingNoResults
         }
     }
 }
@@ -90,14 +136,59 @@ struct NaturalLanguageSearchView: View {
     }
 
     @ViewBuilder
+    private var thinkingMessageBox: some View {
+        if viewModel.thinkingPhase != .idle {
+            VStack(alignment: .leading, spacing: 6) {
+                HStack(spacing: 6) {
+                    Image(systemName: "sparkles")
+                        .font(.caption)
+                        .foregroundStyle(Color.indigo)
+                        .symbolEffect(.pulse, isActive: viewModel.isSearching)
+                    Text("AI")
+                        .font(.caption.bold())
+                        .foregroundStyle(Color.indigo)
+                }
+                HStack(spacing: 4) {
+                    Text(viewModel.thinkingMessage)
+                        .font(.callout)
+                        .foregroundStyle(Color.white.opacity(0.85))
+                        .contentTransition(.numericText())
+                        .animation(.easeInOut(duration: 0.3), value: viewModel.thinkingMessage)
+                    if viewModel.isSearching {
+                        ThinkingIndicatorView()
+                    }
+                }
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(12)
+            .background(
+                RoundedRectangle(cornerRadius: 10)
+                    .fill(Color.indigo.opacity(0.1))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 10)
+                            .stroke(Color.indigo.opacity(0.3), lineWidth: 0.5)
+                    )
+            )
+            .padding(.horizontal)
+            .padding(.top, 8)
+            .transition(.asymmetric(
+                insertion: .opacity.combined(with: .move(edge: .top)),
+                removal: .opacity
+            ))
+        }
+    }
+
+    @ViewBuilder
     private var resultContent: some View {
         if viewModel.isSearching {
+            thinkingMessageBox
             Spacer()
             ProgressView()
-            Text(String.nlSearching)
-                .foregroundStyle(.secondary)
             Spacer()
         } else if viewModel.searchResults.isEmpty {
+            if viewModel.hasSearched {
+                thinkingMessageBox
+            }
             if viewModel.modelStatus != nil {
                 modelStatusBanner
             }
@@ -115,6 +206,7 @@ struct NaturalLanguageSearchView: View {
             }
             Spacer()
         } else {
+            thinkingMessageBox
             modelStatusBanner
 
             ScrollView {
@@ -166,6 +258,24 @@ struct NaturalLanguageSearchView: View {
                 }
             }
         }
+    }
+}
+
+@available(iOS 26.0, *)
+private struct ThinkingIndicatorView: View {
+    private static let symbols = ["·", "✢", "✳\u{FE0E}", "✶", "✦", "✧"]
+    @State private var index = 0
+    private let timer = Timer.publish(every: 0.35, on: .main, in: .common).autoconnect()
+
+    var body: some View {
+        Text(Self.symbols[index])
+            .font(.callout)
+            .foregroundStyle(Color.indigo)
+            .contentTransition(.interpolate)
+            .animation(.easeInOut(duration: 0.25), value: index)
+            .onReceive(timer) { _ in
+                index = (index + 1) % Self.symbols.count
+            }
     }
 }
 #endif

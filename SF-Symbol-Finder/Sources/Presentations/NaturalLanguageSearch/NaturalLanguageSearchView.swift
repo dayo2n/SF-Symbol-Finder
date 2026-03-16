@@ -142,11 +142,11 @@ struct NaturalLanguageSearchView: View {
                 HStack(spacing: 6) {
                     Image(systemName: "sparkles")
                         .font(.caption)
-                        .foregroundStyle(Color.indigo)
+                        .foregroundStyle(Color.accentColor)
                         .symbolEffect(.pulse, isActive: viewModel.isSearching)
                     Text("AI")
                         .font(.caption.bold())
-                        .foregroundStyle(Color.indigo)
+                        .foregroundStyle(Color.accentColor)
                 }
                 HStack(spacing: 4) {
                     Text(viewModel.thinkingMessage)
@@ -163,10 +163,10 @@ struct NaturalLanguageSearchView: View {
             .padding(12)
             .background(
                 RoundedRectangle(cornerRadius: 10)
-                    .fill(Color.indigo.opacity(0.1))
+                    .fill(Color.accentColor.opacity(0.1))
                     .overlay(
                         RoundedRectangle(cornerRadius: 10)
-                            .stroke(Color.indigo.opacity(0.3), lineWidth: 0.5)
+                            .stroke(Color.accentColor.opacity(0.3), lineWidth: 0.5)
                     )
             )
             .padding(.horizontal)
@@ -270,7 +270,7 @@ private struct ThinkingIndicatorView: View {
     var body: some View {
         Text(Self.symbols[index])
             .font(.callout)
-            .foregroundStyle(Color.indigo)
+            .foregroundStyle(Color.accentColor)
             .contentTransition(.interpolate)
             .animation(.easeInOut(duration: 0.25), value: index)
             .onReceive(timer) { _ in

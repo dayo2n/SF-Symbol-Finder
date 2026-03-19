@@ -18,12 +18,24 @@ struct SettingsView: View {
         appInfoSection
       }
       .scrollContentBackground(.hidden)
+      .listStyle(.insetGrouped)
+      .environment(\.defaultMinListRowHeight, 44)
     }
+  }
+
+  private var cellBackground: Color {
+    Color.white.opacity(0.08)
+  }
+
+  private func sectionHeader(_ title: String) -> some View {
+    Text(title)
+      .foregroundStyle(Color.white.opacity(0.7))
+      .font(.footnote)
   }
 
   // MARK: - Language
   private var languageSection: some View {
-    Section(header: Text(String.settingsLanguage)) {
+    Section(header: sectionHeader(String.settingsLanguage)) {
       Button {
         if let url = URL(string: UIApplication.openSettingsURLString) {
           UIApplication.shared.open(url)
@@ -31,45 +43,53 @@ struct SettingsView: View {
       } label: {
         HStack {
           Text(String.settingsChangeLanguage)
-            .foregroundStyle(.primary)
+            .foregroundStyle(.white)
           Spacer()
           Text(AppLanguage.current.displayName)
-            .foregroundStyle(.secondary)
+            .foregroundStyle(Color.white.opacity(0.5))
           Image(systemName: "chevron.right")
             .font(.caption)
-            .foregroundStyle(.secondary)
+            .foregroundStyle(Color.white.opacity(0.5))
         }
       }
+      .listRowBackground(cellBackground)
+      .listRowSeparatorTint(Color.white.opacity(0.15))
     }
   }
 
   // MARK: - SF Symbols
   private var sfSymbolsSection: some View {
-    Section(header: Text(String.settingsSFSymbols)) {
-      HStack {
-        Text(String.settingsSFSymbolsVersion)
-        Spacer()
-        Text(String.settingsSFSymbolsVersionValue)
-          .foregroundStyle(.secondary)
-      }
-      HStack {
-        Text(String.settingsSFSymbolsCount)
-        Spacer()
-        Text("\(Constants.sfsymbols.count)")
-          .foregroundStyle(.secondary)
-      }
+    Section(header: sectionHeader(String.settingsSFSymbolsSupportedVersions)) {
+      versionRow(feature: String.settingsSFSymbolsVersionDraw, version: "SF Symbols 5.1 / iOS 16+")
+      versionRow(feature: String.settingsSFSymbolsVersionBrowse, version: "SF Symbols 7.2 / iOS 16+")
+      versionRow(feature: String.settingsSFSymbolsVersionSearch, version: "SF Symbols 7.2 / iOS 26+")
     }
+  }
+
+  private func versionRow(feature: String, version: String) -> some View {
+    HStack {
+      Text(feature)
+        .foregroundStyle(.white)
+      Spacer()
+      Text(version)
+        .foregroundStyle(Color.white.opacity(0.5))
+    }
+    .listRowBackground(cellBackground)
+    .listRowSeparatorTint(Color.white.opacity(0.15))
   }
 
   // MARK: - App Info
   private var appInfoSection: some View {
-    Section(header: Text(String.settingsAppInfo)) {
+    Section(header: sectionHeader(String.settingsAppInfo)) {
       HStack {
         Text(String.settingsCurrentVersion)
+          .foregroundStyle(.white)
         Spacer()
         Text(Bundle.main.appVersion)
-          .foregroundStyle(.secondary)
+          .foregroundStyle(Color.white.opacity(0.5))
       }
+      .listRowBackground(cellBackground)
+      .listRowSeparatorTint(Color.white.opacity(0.15))
     }
   }
 }

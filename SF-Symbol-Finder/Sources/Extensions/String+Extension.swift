@@ -57,14 +57,16 @@ extension String {
     static let nlThinkingFinding = "NLThinkingFinding".localized()
     static let nlThinkingDone = "NLThinkingDone"
     static let nlThinkingNoResults = "NLThinkingNoResults".localized()
+    static let nlSearchUnavailable = "NLSearchUnavailable".localized()
 
     /* Settings */
     static let settings = "Settings".localized()
     static let settingsLanguage = "SettingsLanguage".localized()
     static let settingsSFSymbols = "SettingsSFSymbols".localized()
-    static let settingsSFSymbolsVersion = "SettingsSFSymbolsVersion".localized()
-    static let settingsSFSymbolsVersionValue = "SettingsSFSymbolsVersionValue".localized()
-    static let settingsSFSymbolsCount = "SettingsSFSymbolsCount".localized()
+    static let settingsSFSymbolsSupportedVersions = "SettingsSFSymbolsSupportedVersions".localized()
+    static let settingsSFSymbolsVersionDraw = "SettingsSFSymbolsVersionDraw".localized()
+    static let settingsSFSymbolsVersionBrowse = "SettingsSFSymbolsVersionBrowse".localized()
+    static let settingsSFSymbolsVersionSearch = "SettingsSFSymbolsVersionSearch".localized()
     static let settingsAppInfo = "SettingsAppInfo".localized()
     static let settingsCurrentVersion = "SettingsCurrentVersion".localized()
     static let settingsChangeLanguage = "SettingsChangeLanguage".localized()

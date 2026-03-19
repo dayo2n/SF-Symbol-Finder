@@ -155,7 +155,7 @@ struct NaturalLanguageSearchView: View {
                         .font(.caption)
                         .symbolRenderingMode(.multicolor)
                         .symbolEffect(.pulse, isActive: viewModel.isSearching)
-                    Text("Apple Intelligence")
+                    Text("Apple Foundation Model")
                         .font(.caption.bold())
                         .foregroundStyle(Color.accentColor)
                 }

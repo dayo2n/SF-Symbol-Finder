@@ -43,14 +43,16 @@
 "NLThinkingFinding" = "최적의 결과를 찾는 중...";
 "NLThinkingDone" = "%d개의 심볼을 찾았어요";
 "NLThinkingNoResults" = "일치하는 심볼을 찾지 못했어요";
+"NLSearchUnavailable" = "이 기능은 iOS 26 이상에서만 사용할 수 있어요.";
 
 /* Settings */
 "Settings" = "설정";
 "SettingsLanguage" = "언어";
 "SettingsSFSymbols" = "SF Symbols";
-"SettingsSFSymbolsVersion" = "SF Symbols 버전";
-"SettingsSFSymbolsVersionValue" = "5.1";
-"SettingsSFSymbolsCount" = "심볼 수";
+"SettingsSFSymbolsSupportedVersions" = "기능별 지원 버전";
+"SettingsSFSymbolsVersionDraw" = "그리기";
+"SettingsSFSymbolsVersionBrowse" = "전체";
+"SettingsSFSymbolsVersionSearch" = "AI 검색";
 "SettingsAppInfo" = "앱 정보";
 "SettingsCurrentVersion" = "현재 버전";
 "SettingsChangeLanguage" = "언어 변경";

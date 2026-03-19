@@ -142,7 +142,7 @@ struct NaturalLanguageSearchView: View {
                 HStack(spacing: 5) {
                     Image(systemName: "apple.intelligence")
                         .font(.caption)
-                        .foregroundStyle(Color.accentColor)
+                        .symbolRenderingMode(.multicolor)
                         .symbolEffect(.pulse, isActive: viewModel.isSearching)
                     Text("Apple Intelligence")
                         .font(.caption.bold())

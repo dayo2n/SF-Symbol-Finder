@@ -42,10 +42,10 @@
 /* Settings */
 "Settings" = "Settings";
 "SettingsLanguage" = "Language";
-"SettingsSFSymbols" = "SF Symbols";
-"SettingsSFSymbolsVersion" = "SF Symbols Version";
-"SettingsSFSymbolsVersionValue" = "5.1";
-"SettingsSFSymbolsCount" = "Symbol Count";
+"SettingsSFSymbolsSupportedVersions" = "Supported Versions by Feature";
+"SettingsSFSymbolsVersionDraw" = "Draw Feature";
+"SettingsSFSymbolsVersionBrowse" = "Browse Feature";
+"SettingsSFSymbolsVersionSearch" = "AI Search Feature";
 "SettingsAppInfo" = "App Info";
 "SettingsCurrentVersion" = "Current Version";
 "SettingsChangeLanguage" = "Change Language";

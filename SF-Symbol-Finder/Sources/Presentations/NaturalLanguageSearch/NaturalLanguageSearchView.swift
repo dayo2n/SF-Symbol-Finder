@@ -139,12 +139,12 @@ struct NaturalLanguageSearchView: View {
     private var thinkingMessageBox: some View {
         if viewModel.thinkingPhase != .idle {
             VStack(alignment: .leading, spacing: 6) {
-                HStack(spacing: 6) {
-                    Image(systemName: "sparkles")
+                HStack(spacing: 5) {
+                    Image(systemName: "apple.intelligence")
                         .font(.caption)
                         .foregroundStyle(Color.accentColor)
                         .symbolEffect(.pulse, isActive: viewModel.isSearching)
-                    Text("AI")
+                    Text("Apple Intelligence")
                         .font(.caption.bold())
                         .foregroundStyle(Color.accentColor)
                 }

@@ -60,6 +60,17 @@ final class NaturalLanguageSearchViewModel: ObservableObject {
         }
     }
 
+    func resetState() {
+        thinkingTask?.cancel()
+        thinkingTask = nil
+        searchResults = []
+        isSearching = false
+        hasSearched = false
+        modelStatus = nil
+        thinkingPhase = .idle
+        thinkingMessage = ""
+    }
+
     private func startThinking(query: String) {
         thinkingTask?.cancel()
         thinkingPhase = .analyzing

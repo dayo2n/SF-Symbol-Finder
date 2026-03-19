@@ -81,6 +81,11 @@ struct ContentView: View {
           .searchable(text: $nlSearchViewModel.searchText, placement: .automatic, prompt: String.nlSearchPlaceholder)
           .searchFocused($isSearchFocused)
           .onSubmit(of: .search) { nlSearchViewModel.performSearch() }
+          .onChange(of: nlSearchViewModel.searchText) {
+            if nlSearchViewModel.searchText.isEmpty {
+              nlSearchViewModel.resetState()
+            }
+          }
           .onChange(of: searchMode) {
             if searchMode == .describe {
               isSearchFocused = true

@@ -29,6 +29,7 @@
 		CC0000032C8A000100000001 /* FoundationModelService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC0000042C8A000100000001 /* FoundationModelService.swift */; };
 		CC0000052C8A000100000001 /* NaturalLanguageSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC0000062C8A000100000001 /* NaturalLanguageSearchView.swift */; };
 		CC0000092C8A000100000001 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC00000A2C8A000100000001 /* SettingsView.swift */; };
+		CC00000C2C8A000200000001 /* SymbolCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC00000D2C8A000200000001 /* SymbolCategory.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -57,6 +58,7 @@
 		CC0000042C8A000100000001 /* FoundationModelService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoundationModelService.swift; sourceTree = "<group>"; };
 		CC0000062C8A000100000001 /* NaturalLanguageSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NaturalLanguageSearchView.swift; sourceTree = "<group>"; };
 		CC00000A2C8A000100000001 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		CC00000D2C8A000200000001 /* SymbolCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymbolCategory.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -182,6 +184,7 @@
 				ADD4C0302B95C28500B6E862 /* Result.swift */,
 				AD548E0C2B960C6200FBB2CC /* DeviceModel.swift */,
 				CC0000022C8A000100000001 /* SymbolKeywords.swift */,
+				CC00000D2C8A000200000001 /* SymbolCategory.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -311,6 +314,7 @@
 				CC0000032C8A000100000001 /* FoundationModelService.swift in Sources */,
 				CC0000052C8A000100000001 /* NaturalLanguageSearchView.swift in Sources */,
 				CC0000092C8A000100000001 /* SettingsView.swift in Sources */,
+				CC00000C2C8A000200000001 /* SymbolCategory.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

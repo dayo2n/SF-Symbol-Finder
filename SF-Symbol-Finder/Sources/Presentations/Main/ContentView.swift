@@ -21,6 +21,7 @@ struct ContentView: View {
   @State private var searchMode: SearchMode = .draw
   @State private var isSearchActive = false
   @FocusState private var isSearchFieldFocused: Bool
+  @State private var browseSearchText = ""
   @EnvironmentObject var orientation: Orientation
   var defaultPadding: CGFloat {
     Constants.deviceModel == DeviceModel.iPad.rawValue ? 30 : 10
@@ -67,7 +68,7 @@ struct ContentView: View {
         Tab(String.searchModeBrowse, systemImage: "square.grid.2x2", value: .browse) {
           ZStack {
             Color.neutral.ignoresSafeArea()
-            SFSymbolListView(keyword: "")
+            SFSymbolListView(keyword: "", searchText: $browseSearchText)
           }
         }
         Tab(String.settings, systemImage: "gearshape", value: .settings) {
@@ -239,6 +240,7 @@ private struct DescribeTabWrapper<DrawContent: View, ErrorOverlay: View>: View {
 
   @StateObject private var nlSearchViewModel = NaturalLanguageSearchViewModel()
   @FocusState private var isSearchFocused: Bool
+  @State private var browseSearchText = ""
 
   var body: some View {
     ZStack {
@@ -249,7 +251,7 @@ private struct DescribeTabWrapper<DrawContent: View, ErrorOverlay: View>: View {
         Tab(String.searchModeBrowse, systemImage: "square.grid.2x2", value: .browse) {
           ZStack {
             Color.neutral.ignoresSafeArea()
-            SFSymbolListView(keyword: "")
+            SFSymbolListView(keyword: "", searchText: $browseSearchText)
           }
         }
         Tab(String.settings, systemImage: "gearshape", value: .settings) {

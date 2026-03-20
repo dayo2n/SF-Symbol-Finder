@@ -43,14 +43,16 @@
 "NLThinkingFinding" = "Finding the best matches...";
 "NLThinkingDone" = "Found %d symbols";
 "NLThinkingNoResults" = "Couldn't find matching symbols";
+"NLSearchUnavailable" = "This feature requires iOS 26 or later.";
 
 /* Settings */
 "Settings" = "Settings";
 "SettingsLanguage" = "Language";
-"SettingsSFSymbolsSupportedVersions" = "Supported Versions by Feature";
-"SettingsSFSymbolsVersionDraw" = "Draw Feature";
-"SettingsSFSymbolsVersionBrowse" = "Browse Feature";
-"SettingsSFSymbolsVersionSearch" = "AI Search Feature";
+"SettingsSFSymbols" = "SF Symbols";
+"SettingsSFSymbolsSupportedVersions" = "Supported Versions";
+"SettingsSFSymbolsVersionDraw" = "Draw";
+"SettingsSFSymbolsVersionBrowse" = "All";
+"SettingsSFSymbolsVersionSearch" = "AI Search";
 "SettingsAppInfo" = "App Info";
 "SettingsCurrentVersion" = "Current Version";
 "SettingsChangeLanguage" = "Change Language";

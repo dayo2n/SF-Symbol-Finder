@@ -21,16 +21,6 @@ struct ContentView: View {
   @State private var searchMode: SearchMode = .draw
   @State private var isSearchActive = false
   @FocusState private var isSearchFieldFocused: Bool
-  @FocusState private var isSearchFocused: Bool
-#if canImport(FoundationModels)
-  @StateObject private var nlSearchViewModel = {
-    if #available(iOS 26.0, *) {
-      return NaturalLanguageSearchViewModel()
-    } else {
-      fatalError()
-    }
-  }()
-#endif
   @EnvironmentObject var orientation: Orientation
   var defaultPadding: CGFloat {
     Constants.deviceModel == DeviceModel.iPad.rawValue ? 30 : 10
@@ -46,6 +36,8 @@ struct ContentView: View {
             onAppeared = true
           }
         }
+    } else if #available(iOS 18.0, *) {
+      legacyTabViewBody
     } else {
       legacyBody
     }
@@ -57,6 +49,16 @@ struct ContentView: View {
 #if canImport(FoundationModels)
   @available(iOS 26.0, *)
   private var tabViewBody: some View {
+    DescribeTabWrapper(
+      searchMode: $searchMode,
+      showErrorAlert: showErrorAlert,
+      drawContent: { drawContent },
+      errorOverlay: { errorOverlay }
+    )
+  }
+
+  @available(iOS 18.0, *)
+  private var legacyTabViewBody: some View {
     ZStack {
       TabView(selection: $searchMode) {
         Tab(String.searchModeDraw, systemImage: "pencil.and.scribble", value: .draw) {
@@ -71,31 +73,32 @@ struct ContentView: View {
         Tab(String.settings, systemImage: "gearshape", value: .settings) {
           SettingsView()
         }
-        Tab(value: .describe, role: .search) {
-          NavigationStack {
-            ZStack {
-              Color.neutral.ignoresSafeArea()
-              NaturalLanguageSearchView(viewModel: nlSearchViewModel)
+        Tab(String.searchModeDescribe, systemImage: "magnifyingglass", value: .describe) {
+          ZStack {
+            Color.neutral.ignoresSafeArea()
+            VStack(spacing: 16) {
+              Image(systemName: "apple.intelligence")
+                .font(.system(size: 40))
+                .foregroundStyle(.secondary)
+              Text(String.nlSearchUnavailable)
+                .font(.body)
+                .foregroundStyle(.secondary)
+                .multilineTextAlignment(.center)
             }
-          }
-          .searchable(text: $nlSearchViewModel.searchText, placement: .automatic, prompt: String.nlSearchPlaceholder)
-          .searchFocused($isSearchFocused)
-          .onSubmit(of: .search) { nlSearchViewModel.performSearch() }
-          .onChange(of: nlSearchViewModel.searchText) {
-            if nlSearchViewModel.searchText.isEmpty {
-              nlSearchViewModel.resetState()
-            }
-          }
-          .onChange(of: searchMode) {
-            if searchMode == .describe {
-              isSearchFocused = true
-            }
+            .padding()
           }
         }
       }
+      .onAppear { configureTabBarAppearance() }
 
       if showErrorAlert {
         errorOverlay
+      }
+    }
+    .onAppear {
+      if !onAppeared {
+        canvasRepresentingView = CanvasRepresentingView(isClear: $isClear)
+        onAppeared = true
       }
     }
   }
@@ -192,3 +195,94 @@ struct ContentView: View {
     .padding(.horizontal, defaultPadding)
   }
 }
+
+// MARK: - Tab Bar Appearance
+private func configureTabBarAppearance() {
+  let appearance = UITabBarAppearance()
+  appearance.configureWithOpaqueBackground()
+  appearance.backgroundColor = UIColor(Color.neutral)
+
+  let normalAttributes: [NSAttributedString.Key: Any] = [
+    .foregroundColor: UIColor.white.withAlphaComponent(0.6)
+  ]
+  let selectedAttributes: [NSAttributedString.Key: Any] = [
+    .foregroundColor: UIColor(Color.accentColor)
+  ]
+
+  appearance.stackedLayoutAppearance.normal.iconColor = UIColor.white.withAlphaComponent(0.6)
+  appearance.stackedLayoutAppearance.normal.titleTextAttributes = normalAttributes
+  appearance.stackedLayoutAppearance.selected.iconColor = UIColor(Color.accentColor)
+  appearance.stackedLayoutAppearance.selected.titleTextAttributes = selectedAttributes
+
+  appearance.inlineLayoutAppearance.normal.iconColor = UIColor.white.withAlphaComponent(0.6)
+  appearance.inlineLayoutAppearance.normal.titleTextAttributes = normalAttributes
+  appearance.inlineLayoutAppearance.selected.iconColor = UIColor(Color.accentColor)
+  appearance.inlineLayoutAppearance.selected.titleTextAttributes = selectedAttributes
+
+  appearance.compactInlineLayoutAppearance.normal.iconColor = UIColor.white.withAlphaComponent(0.6)
+  appearance.compactInlineLayoutAppearance.normal.titleTextAttributes = normalAttributes
+  appearance.compactInlineLayoutAppearance.selected.iconColor = UIColor(Color.accentColor)
+  appearance.compactInlineLayoutAppearance.selected.titleTextAttributes = selectedAttributes
+
+  UITabBar.appearance().standardAppearance = appearance
+  UITabBar.appearance().scrollEdgeAppearance = appearance
+}
+
+// MARK: - iOS 26+ Tab Wrapper
+#if canImport(FoundationModels)
+@available(iOS 26.0, *)
+private struct DescribeTabWrapper<DrawContent: View, ErrorOverlay: View>: View {
+  @Binding var searchMode: SearchMode
+  let showErrorAlert: Bool
+  @ViewBuilder let drawContent: () -> DrawContent
+  @ViewBuilder let errorOverlay: () -> ErrorOverlay
+
+  @StateObject private var nlSearchViewModel = NaturalLanguageSearchViewModel()
+  @FocusState private var isSearchFocused: Bool
+
+  var body: some View {
+    ZStack {
+      TabView(selection: $searchMode) {
+        Tab(String.searchModeDraw, systemImage: "pencil.and.scribble", value: .draw) {
+          drawContent()
+        }
+        Tab(String.searchModeBrowse, systemImage: "square.grid.2x2", value: .browse) {
+          ZStack {
+            Color.neutral.ignoresSafeArea()
+            SFSymbolListView(keyword: "")
+          }
+        }
+        Tab(String.settings, systemImage: "gearshape", value: .settings) {
+          SettingsView()
+        }
+        Tab(value: .describe, role: .search) {
+          NavigationStack {
+            ZStack {
+              Color.neutral.ignoresSafeArea()
+              NaturalLanguageSearchView(viewModel: nlSearchViewModel)
+            }
+          }
+          .searchable(text: $nlSearchViewModel.searchText, placement: .automatic, prompt: String.nlSearchPlaceholder)
+          .searchFocused($isSearchFocused)
+          .onSubmit(of: .search) { nlSearchViewModel.performSearch() }
+          .onChange(of: nlSearchViewModel.searchText) {
+            if nlSearchViewModel.searchText.isEmpty {
+              nlSearchViewModel.resetState()
+            }
+          }
+          .onChange(of: searchMode) {
+            if searchMode == .describe {
+              isSearchFocused = true
+            }
+          }
+        }
+      }
+
+      if showErrorAlert {
+        errorOverlay()
+      }
+    }
+    .onAppear { configureTabBarAppearance() }
+  }
+}
+#endif

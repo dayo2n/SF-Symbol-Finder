@@ -23,7 +23,7 @@ struct SFSymbolListView: View {
     @Environment(\.dismiss) private var dismiss
     var body: some View {
         ZStack {
-            Color.neutral
+            Color.neutral.ignoresSafeArea()
             ScrollView {
                 VStack {
                     Text(String.guideOnClickToCopy)

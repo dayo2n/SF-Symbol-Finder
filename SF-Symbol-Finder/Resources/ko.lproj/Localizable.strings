@@ -44,6 +44,27 @@
 "NLThinkingDone" = "%d개의 심볼을 찾았어요";
 "NLThinkingNoResults" = "일치하는 심볼을 찾지 못했어요";
 
+/* Browse Search */
+"BrowseSearchPlaceholder" = "심볼 검색...";
+"BrowseNoResults" = "심볼을 찾지 못했어요.\n다른 검색어나 카테고리를 시도해 보세요.";
+
+/* Categories */
+"CategoryAll" = "전체";
+"CategoryCommunication" = "커뮤니케이션";
+"CategoryWeather" = "날씨";
+"CategoryHuman" = "사람";
+"CategoryNature" = "자연";
+"CategoryDevices" = "기기";
+"CategoryTransportation" = "교통";
+"CategoryGaming" = "게임";
+"CategoryArrows" = "화살표";
+"CategoryMedia" = "미디어";
+"CategoryEditing" = "편집";
+"CategoryCommerce" = "상거래";
+"CategoryHealth" = "건강";
+"CategoryObjects" = "오브젝트";
+"CategoryShapes" = "도형";
+
 /* Settings */
 "Settings" = "설정";
 "SettingsLanguage" = "언어";

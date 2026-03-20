@@ -58,6 +58,27 @@ extension String {
     static let nlThinkingDone = "NLThinkingDone"
     static let nlThinkingNoResults = "NLThinkingNoResults".localized()
 
+    /* Browse Search */
+    static let browseSearchPlaceholder = "BrowseSearchPlaceholder".localized()
+    static let browseNoResults = "BrowseNoResults".localized()
+
+    /* Categories */
+    static let categoryAll = "CategoryAll".localized()
+    static let categoryCommunication = "CategoryCommunication".localized()
+    static let categoryWeather = "CategoryWeather".localized()
+    static let categoryHuman = "CategoryHuman".localized()
+    static let categoryNature = "CategoryNature".localized()
+    static let categoryDevices = "CategoryDevices".localized()
+    static let categoryTransportation = "CategoryTransportation".localized()
+    static let categoryGaming = "CategoryGaming".localized()
+    static let categoryArrows = "CategoryArrows".localized()
+    static let categoryMedia = "CategoryMedia".localized()
+    static let categoryEditing = "CategoryEditing".localized()
+    static let categoryCommerce = "CategoryCommerce".localized()
+    static let categoryHealth = "CategoryHealth".localized()
+    static let categoryObjects = "CategoryObjects".localized()
+    static let categoryShapes = "CategoryShapes".localized()
+
     /* Settings */
     static let settings = "Settings".localized()
     static let settingsLanguage = "SettingsLanguage".localized()

@@ -44,6 +44,27 @@
 "NLThinkingDone" = "Found %d symbols";
 "NLThinkingNoResults" = "Couldn't find matching symbols";
 
+/* Browse Search */
+"BrowseSearchPlaceholder" = "Search symbols...";
+"BrowseNoResults" = "No symbols found.\nTry a different search term or category.";
+
+/* Categories */
+"CategoryAll" = "All";
+"CategoryCommunication" = "Communication";
+"CategoryWeather" = "Weather";
+"CategoryHuman" = "People";
+"CategoryNature" = "Nature";
+"CategoryDevices" = "Devices";
+"CategoryTransportation" = "Transport";
+"CategoryGaming" = "Gaming";
+"CategoryArrows" = "Arrows";
+"CategoryMedia" = "Media";
+"CategoryEditing" = "Editing";
+"CategoryCommerce" = "Commerce";
+"CategoryHealth" = "Health";
+"CategoryObjects" = "Objects";
+"CategoryShapes" = "Shapes";
+
 /* Settings */
 "Settings" = "Settings";
 "SettingsLanguage" = "Language";

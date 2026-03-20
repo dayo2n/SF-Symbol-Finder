@@ -22,6 +22,7 @@ struct ContentView: View {
   @State private var isSearchActive = false
   @FocusState private var isSearchFieldFocused: Bool
   @FocusState private var isSearchFocused: Bool
+  @State private var browseSearchText = ""
 #if canImport(FoundationModels)
   @StateObject private var nlSearchViewModel = {
     if #available(iOS 26.0, *) {
@@ -65,7 +66,7 @@ struct ContentView: View {
         Tab(String.searchModeBrowse, systemImage: "square.grid.2x2", value: .browse) {
           ZStack {
             Color.neutral.ignoresSafeArea()
-            SFSymbolListView(keyword: "")
+            SFSymbolListView(keyword: "", searchText: $browseSearchText)
           }
         }
         Tab(String.settings, systemImage: "gearshape", value: .settings) {

@@ -45,19 +45,19 @@ struct SettingsView: View {
 
   // MARK: - SF Symbols
   private var sfSymbolsSection: some View {
-    Section(header: Text(String.settingsSFSymbols)) {
-      HStack {
-        Text(String.settingsSFSymbolsVersion)
-        Spacer()
-        Text(String.settingsSFSymbolsVersionValue)
-          .foregroundStyle(.secondary)
-      }
-      HStack {
-        Text(String.settingsSFSymbolsCount)
-        Spacer()
-        Text("\(Constants.sfsymbols.count)")
-          .foregroundStyle(.secondary)
-      }
+    Section(header: Text(String.settingsSFSymbolsSupportedVersions)) {
+      versionRow(feature: String.settingsSFSymbolsVersionDraw, version: "SF Symbols 5.1")
+      versionRow(feature: String.settingsSFSymbolsVersionBrowse, version: "SF Symbols 7.2")
+      versionRow(feature: String.settingsSFSymbolsVersionSearch, version: "SF Symbols 7.2")
+    }
+  }
+
+  private func versionRow(feature: String, version: String) -> some View {
+    HStack {
+      Text(feature)
+      Spacer()
+      Text(version)
+        .foregroundStyle(.secondary)
     }
   }
 
